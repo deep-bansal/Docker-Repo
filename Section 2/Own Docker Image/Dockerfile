@@ -39,17 +39,17 @@ EXPOSE 80
 
 CMD ["node","server.js"]
 #should be last always
-
-
 #now these are only instructions written by us 
 #we now need to build image out of it
+
+
 #docker build docker_file_path in this case . (relative to terminal folder)
 
 #if we visit localhost it says it can't connect 
 #EXPOSE 80 is for documentaion purpose not doing anything not exposing to local machine
 #can remove EXPOSE 80 also will work same
 
-#special option needs to be mentioned docker run -p (local machine)80:80(expose port) docker_image_name
+#special option needs to be mentioned docker run -p (local machine)3000:80(expose port) docker_image_name
 
 #to stop docker
 #docker ps
