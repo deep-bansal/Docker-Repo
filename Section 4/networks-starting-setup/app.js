@@ -68,7 +68,8 @@ app.get('/people', async (req, res) => {
 });
 
 mongoose.connect(
-  'mongodb://localhost:27017/swfavorites',
+  'mongodb://mongodb/swfavorites', //mongodb://(mongodb)/swfavorites this (mongodb) is name of contaier in same network 
+  //and if we don't create network then do docker container inspect copy ip and paste it instead of mongodb
   { useNewUrlParser: true },
   (err) => {
     if (err) {
