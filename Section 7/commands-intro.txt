@@ -1,0 +1,51 @@
+With docker we know we can create project and wrap in containers but what if we want to create the app
+inside the container like npm init command to start inside the container only. That is what utility 
+containers help us to achieve. 
+
+---------------------------------------------------------
+if we run 
+---------------------------------------------------------
+
+docker run node
+
+the container starts but stops immediately because it needs to be run in interactive mode
+
+---------------------------------------------------------
+so we use
+---------------------------------------------------------
+
+docker run -it -d node
+
+it keeps container up and running but in detach mode 
+we can use docker attach node to bring in attach mode
+
+(base) deepbansal@Deeps-MacBook-Air Docker % docker run -it node
+Welcome to Node.js v21.6.2.
+Type ".help" for more information.
+> npm init (entered by me)
+npm should be run outside of the Node.js REPL, in your normal shell.
+(Press Ctrl+D to exit.)
+> 
+
+---------------------------------------------------------
+now if we want to enter command in this detach container
+---------------------------------------------------------
+
+docker exec 
+
+allows you to run commands inside of running container beside the default commands,this container executes
+besides the command specified in dockerFile that continue to execute we run additional commands from outside
+
+docker exec -it elegant_gauss npm init
+
+using this command we have created a project inside of container without installing npm in local machine
+
+other syntax 
+by default docker run node executes default command when node starts by we can overwrite that command
+
+docker run -it node npm init
+
+basically for different projects we need to install different tools like
+for node npm 
+for python python
+like these so to avoid these we use utility containers

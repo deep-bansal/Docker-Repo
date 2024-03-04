@@ -1,0 +1,51 @@
+basic-utility-container
+---------------------------------------------------------
+build image of custom docker file
+---------------------------------------------------------
+
+docker build -t node-util .
+
+---------------------------------------------------------
+To create project inside container
+---------------------------------------------------------
+
+docker run -it npm init
+
+---------------------------------------------------------
+if we want that project to be created in local host also
+---------------------------------------------------------
+
+docker run -it -v "$(pwd):/app" node-util npm init
+
+creating project in container and localhost using container
+
+-------------------------------------------------------------------------------------------
+
+entrypoint
+---------------------------------------------------------
+if we define entrypoint we can then write this directly
+---------------------------------------------------------
+
+docker run -it -v "$(pwd):/app" mynpm init  (no npm reqd)
+
+-------------------------------------------------------------------------------------------
+
+docker compose for utility container
+
+if we run 
+docker-compose up 
+it starts building npm because nothing is specified by us
+
+docker-compose up init also fails because docker-compose behave differntly than docker run
+
+-----------------------------------------------------------------------
+to run commands in already running container created by docker-compose
+-----------------------------------------------------------------------
+
+docker-compose exec
+
+-----------------------------------------------------------------------
+to run commands for single service with docker-compose
+-----------------------------------------------------------------------
+
+docker-compose run --rm npm (service_name) init
