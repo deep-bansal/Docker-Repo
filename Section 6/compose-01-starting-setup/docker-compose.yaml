@@ -1,0 +1,105 @@
+# version specifies the version of docker compose specifications
+# we wanna use and version we define here has an effect on the features we can 
+# use in this compose file because docker compose specification and syntax may change over time
+# this field has been deprecated now
+
+# version: "3.8"
+
+services:
+
+#name of the containers that i give and using for this project
+  mongodb:
+
+    #image to which it belongs and can look at docker hub also
+    image: "mongo"
+
+    # by default containers will be removed when used with docker compose so --rm flag not needed
+    # -d can be added when we start services
+
+    volumes: 
+     - data:/data/db
+
+    # environment:
+
+      # one way to write
+      # MONGO_INITDB_ROOT_USERNAME:admin
+      #converts to yaml object thats why - not needed for above
+      
+      # other way to write
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_ROOT_PASSWORD=secret
+
+    # other way
+    env_file:
+      - ./env/mongo.env
+
+
+    # by default docker compose gives own container name 
+    # folder_name(_of_yaml_file)_container_name(_we_wrote_above)_increment_no
+    # custom name
+    # container_name: mongodb
+
+    
+    # for network one way to do this or docker compose by default create the network
+    # networks:
+    #   - networkName
+
+
+  backend:
+
+    build: ./backend # if image not exist already
+    
+    # other way
+    # build:
+    #   can be path to docker file 
+    #   or can be folder to which dockerfile referring to 
+    #   suppose docker file in nested folder and refers to outside folder then context should be set to
+    #   higher folder
+    #   context: ./backend 
+    #   dockerfile: Dockerfile # if dockerfile name is different we can specify it here
+    #   args:
+    #     - name=value
+
+    # image: goals-node (if image already built or need to be fetched)
+
+    ports:
+      - '80:80'
+
+    volumes:
+      - /app/node_modules
+      - ./backend:/app # relative allowed
+      - logs:/app/logs
+
+    env_file:
+      - ./env/backend.env
+    
+    # specify the list of containers that are already running on which it depends otherwise error if 
+    # they start later this container
+    depends_on:
+      - mongodb
+   
+  frontend:
+    build: ./frontend  # only builds if rebuilding reqd otherwise use already made image
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    
+    # to run in interactive mode
+    stdin_open: true
+    tty: true
+
+    depends_on:
+      - backend
+
+# all the named volumes are needed to be specifed like this at services level (syntax no reason)
+volumes:
+  data: # name of volume:
+  # anonymous and bind mounts not needed to be specified here
+  # same named volume can be shared by different services in hosting machine
+  logs:
+
+# container names we are writing here like mongodb,backend,frontend etc are different from 
+# what docker compose make in docker ps but our specified names can be used in code like in 
+# mongo URI

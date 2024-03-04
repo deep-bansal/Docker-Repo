@@ -1,0 +1,23 @@
+----------------------------------------------------
+Command to run docker compose
+----------------------------------------------------
+
+docker-compose up -d
+
+----------------------------------------------------
+Command to shut down docker compose
+----------------------------------------------------
+
+docker-compose down -v (to remove all volumes created ) (networks removed by default)
+
+----------------------------------------------------
+if force build of images reqd 
+----------------------------------------------------
+
+docker-compose up --build
+
+----------------------------------------------------
+if only image needs to be build not start container
+----------------------------------------------------
+
+docker-compose build

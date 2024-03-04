@@ -1,0 +1,69 @@
+-----------------------
+Create Network
+-----------------------
+
+docker network create goals-net
+
+-----------------------
+Run MongoDB Container
+-----------------------
+
+docker run --name mongodb\
+ -e MONGO_INITDB_ROOT_USERNAME=max \
+ -e MONGO_INITDB_ROOT_PASSWORD=secret \
+ -v data:/data/db \
+ --rm \
+ -d\
+ --network goals-net \
+ mongo
+
+-----------------------
+Mongo URI
+-----------------------
+
+mongodb://admin:secret@mongodb:27017/course-goals?authSource=admin
+
+-----------------------
+Build Node API Image
+-----------------------
+
+docker build -t goals-node .
+
+-----------------------
+Run Node API Container
+-----------------------
+
+docker run --name goals-backend \
+ -p 80:80 -d -e \
+ MONGODB_USERNAME=admin \
+ --network goals-net\
+ -v logs:/app/logs \
+ -v "$(pwd):/app" --rm \
+ -v /app/node_modules \
+ goals-node 
+
+-----------------------
+React Build SPA Image
+-----------------------
+
+docker build -t goals-react .
+
+-----------------------
+Run React SPA Container
+-----------------------
+
+docker run --name goals-frontend \
+ -p 3000:3000\
+ -d --rm\
+ --network goals-net \
+ -v "$(pwd):/app"\
+ -v /app/node_modules \
+ goals-react 
+
+Note - -it flag was required in course but not in my setup for react container run
+
+-----------------------
+Stop All Containers
+-----------------------
+
+docker stop mongodb goals-backend goals-frontend
