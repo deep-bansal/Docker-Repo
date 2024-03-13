@@ -1,0 +1,12 @@
+docker image - it creates an image of docker file and gives image ID
+docker run image id - it runs image and create container for it
+docker start container_name - runs already create container
+docker attach container_name - it attaches the running detache container
+
+-t flag-> if we ru container originally with -t flag then not required in start command as it remembers
+
+docker image inspect image_id -> gives all the information of image like port, ip everything
+
+To copy to and extract from running container
+
+docker cp folder_name:/

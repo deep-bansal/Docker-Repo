@@ -1,0 +1,21 @@
+services:
+  # nginx container which will take incoming req trigger php interpreter container and take response
+  # and send back
+  server:
+    image: 'nginx:stable-alpine'
+    ports:
+      - 8000:80
+    volumes:
+      -./nginx/nginx.conf:/etc/nginx/nginx.conf:ro   #official docs
+    
+
+  #interpreter for running and executing php code and also laravel code
+  # php:
+
+  # mysql:
+
+  # composer:
+
+  # artisan:
+
+  # npm:
