@@ -8,9 +8,16 @@ services:
     volumes:
       -./nginx/nginx.conf:/etc/nginx/nginx.conf:ro   #official docs
     
+  # interpreter for running and executing php code and also laravel code
+  php:
+    build: 
+      context: ./dockerfiles
+      dockerfile: php.dockerfile
+    volumes:
+      - ./src:/var/www/html:delegated  # this delegated writes the changes in batches on host machine
+                                       # and not for very change (optimisation)
+      
 
-  #interpreter for running and executing php code and also laravel code
-  # php:
 
   # mysql:
 

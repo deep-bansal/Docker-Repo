@@ -1,0 +1,4 @@
+--- if we don't give any command in docker file then it used default command of base image (if any) like 
+for php image
+
+--- delegated in bind mount writes the changes in batches on host machine and not for very change (optimisation)
