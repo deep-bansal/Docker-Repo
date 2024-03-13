@@ -14,12 +14,13 @@ services:
       context: ./dockerfiles
       dockerfile: php.dockerfile
     volumes:
-      - ./src:/var/www/html:delegated  # this delegated writes the changes in batches on host machine
-                                       # and not for very change (optimisation)
+      - ./src:/var/www/html:delegated  # this delegated writes the changes in batches 
+                                       # on host machine and not for very change (optimisation)
       
-
-
-  # mysql:
+  mysql:
+    image: mysql:5.7
+    env_file:
+      - ./env/mysql.env
 
   # composer:
 
