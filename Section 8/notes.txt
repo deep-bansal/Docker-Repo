@@ -2,3 +2,12 @@
 for php image
 
 --- delegated in bind mount writes the changes in batches on host machine and not for very change (optimisation)
+
+--- depends_on helps in running other containers with main container
+
+--build option builds custom images always
+
+--- copy and run commands not avail in docker-compose
+
+--- difference in bind mounts and image?
+    bind mounts helpful in dev phase only after that image helps
