@@ -1,0 +1,9 @@
+--------------------
+Run Minikube
+--------------------
+minikube start --driver=virtualbox
+
+-------------------------
+To see minikube dashboard
+-------------------------
+minikube dashboard
