@@ -1,12 +1,66 @@
-docker image - it creates an image of docker file and gives image ID
-docker run image id - it runs image and create container for it
-docker start container_name - runs already create container
-docker attach container_name - it attaches the running detache container
+-----------------------
+Build Image Command
+-----------------------
+docker build . (docker_file_path relative to terminal folder)
 
--t flag-> if we ru container originally with -t flag then not required in start command as it remembers
+------------------------
+To run a container
+------------------------
+docker run image_name
 
-docker image inspect image_id -> gives all the information of image like port, ip everything
+------------------------
+LocalHost gives nothing
+------------------------
+if we visit localhost it says it can't connect 
+EXPOSE 80 is for documentaion purpose not doing anything not exposing to local machine
+can remove EXPOSE 80 also will work same
 
-To copy to and extract from running container
+special option needs to be mentioned 
+docker run -p (local machine) 3000:80 (expose port) docker_image_name
 
-docker cp folder_name:/
+------------------------
+To stop docker
+------------------------
+docker ps -> List all running containers 
+docker ps -a -> List all running or stopped containers
+docker stop container_name
+
+------------------------
+Layered Architecture
+------------------------
+till now as far we know if we make changes of code we need to build it again 
+
+docker uses layer based architecture
+basically it caches the image and when we rebuild it compares if no change it uses that image only
+when one layer changes all subsequent layers are also changed
+example when COPY is rebuilt all commands after that are rebuilt
+
+------------------------------
+As an optimisation we can do
+------------------------------
+
+FROM node  
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install 
+
+COPY . ./
+
+EXPOSE 80
+
+CMD ["node","server.js"]
+
+here we copied package.json and run command before copying all the folders and if any change 
+take place in any folder the n last copy and cmd are rebuilt all other cached
+
+container doesn't copy the image code env it utilises it only it adds a layer over it
+
+-------
+Note
+-------
+As an additional quick side-note: 
+For all docker commands where an ID can be used, you don't always have to copy / write out 
+the full id. You can also just use the first (few) character(s) - just enough to have a unique identifier.

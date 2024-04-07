@@ -20,7 +20,7 @@ COPY . ./
 # we can also write  COPY . /app
 
 RUN npm install 
-#by default runs on root folder in docker container
+#by default runs on WORKDIR folder in docker container
 # set working directory WORKDIR before copying
 
 EXPOSE 80
@@ -36,33 +36,13 @@ EXPOSE 80
 #start container when we start container
 
 
-
 CMD ["node","server.js"]
 #should be last always
 #now these are only instructions written by us 
 #we now need to build image out of it
 
 
-#docker build docker_file_path in this case . (relative to terminal folder)
-
-#if we visit localhost it says it can't connect 
-#EXPOSE 80 is for documentaion purpose not doing anything not exposing to local machine
-#can remove EXPOSE 80 also will work same
-
-#special option needs to be mentioned docker run -p (local machine)3000:80(expose port) docker_image_name
-
-#to stop docker
-#docker ps
-#docker stop image_name
-
-#till now as far we know if we make changes of code we need to build it again 
-
-#docker uses layer based architecture
-#basically it caches the image and when we rebuild it compares if no change it uses that image only
-#when one layer changes all subsequent layers are also changed
-#example when COPY is rebuilt all commands after that are rebuilt
-
-#as an optimisation we can do
+# as an optimisation we can do
 
 # FROM node  
 
@@ -78,4 +58,4 @@ CMD ["node","server.js"]
 
 # CMD ["node","server.js"]
 
-#container doesn't copy the image code env it utilises it only it adds a layer over it
+# container doesn't copy the image code env it utilises it only it adds a layer over it

@@ -1,0 +1,31 @@
+# stage 1
+
+FROM node:14-alpine as build  
+# to use result from this build in later stage
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+# CMD [ "npm" , "run" , "build" ]
+# in  multistage we need to use run instead of cmd
+
+RUN npm run build
+
+# now we need to change the base image because build command use node for base image
+
+# stage 2
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+# copying final content from build stage into this new stage
+# default folder og ngnix from where nginx will try to serve the web pages
+
+EXPOSE 80
+
+CMD ["nginx", "-g" , "daemon off;"]
