@@ -7,3 +7,64 @@ minikube start --driver=virtualbox
 To see minikube dashboard
 -------------------------
 minikube dashboard
+
+
+Imperitive Way of creating
+
+-----------------------------------------------------
+Deployment Object steps 
+-----------------------------------------------------
+1. Create the docker image
+2. Send it to kubernetes cluster as part of pod
+3. Run minikube start --driver=docker
+4. Run kubectl create deployment (deployment_object_name) --image=(image_name) 
+   to create a deployment object and it gets automatically sentto kubernetes cluster. 
+   But it won't work as image is in localhost. It will create the deployment object 
+   but it won't be ready. Use kubectl get deployments to see all deployment object
+5. kubectl get pods don't show any pods ready out of 1 pod and reason shown is errImagePull
+6. Cluster looks for this image and since it runs in VM it doesn't find it therefore specify 
+   deployed image
+7. kubectl delete deployment (deployment_object_name) 
+8. push image to dockerHub
+
+-------------------------------------------------------
+Using Services for internal and external access of pods
+-------------------------------------------------------
+1. we can work by running kubectl create service command but longer way instead use 
+   kubectl expose deployment (deployment_object_name) --port=(port_no.) --type=
+   CluserIP -> accessible only inside the cluster (default expose)
+   NodePort -> accessible outside also with help of worker node IP on which it runs
+   LoadBalancer -> also balances the incoming traffic along with expose
+2. kubectl get services shows all the services and we can see for first-app external IP
+   is pending because it is not deployed on cloud and remain same
+3. To see it externally run minikube service (deployment_object_name)  this will expose that
+   VM to external IP
+   Note- if cloud provider would have been there, we won't need this command
+
+---------------------
+Manually Scaling pods
+---------------------
+kubectl scale deployment/first-app --replicas=3
+
+-------------------------
+Updating deployment code
+-------------------------
+1. Build the image again after changes.
+2. Push the image to dockerHub.
+3. Now run following command
+   kubectl set image deployment/first-app old-image-name=deep04bansal/kub-first-app(new_image_name)
+   this command won't make any changes because it only downloads the image if they have different tag
+5. kubectl set image deployment/first-app old-image-name=deep04bansal/kub-first-app(new_image_name)
+6. To see status of new rollout run 
+   kubectl rollout status deployment/first-app
+
+-----------------------
+To roll back deployment
+-----------------------
+1. kubectl rollout undo deployment/first-app (this will undo latest deployment)
+2. To see history of rollouts
+   kubectl rollout history deployment/first-app 
+3. To see specific details of rollout we can use
+   kubectl rollout history deployment/first-app --revision=_number_
+4. To rollback to specific revision use
+   kubectl rollout undo deployment/first-app --to-revision=revision_number
