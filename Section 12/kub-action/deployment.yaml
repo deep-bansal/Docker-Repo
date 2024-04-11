@@ -1,0 +1,35 @@
+apiVersion: apps/v1 # Version of the Kubernetes API check from the official documentation
+kind: Deployment # Type of the Kubernetes object 
+metadata: # Metadata of the object
+  name: second-app # Name of the object
+  labels:
+    group: deploy
+spec: # Specification of the object
+  replicas: 1 # Number of replicas of the pod
+  selector: # Selector of the pod
+    matchLabels: # Match labels of the pod
+      app: second-app # Label of the pod to be controlled
+    # matchExpressions: # Match expressions of the pod
+
+  template: # like we specified image in imperative approach 
+    
+    # kind: Pod # Type of the object no need to write because template of deployment is always pod
+    
+    metadata: # Metadata of the pod
+      labels: # Labels of the pod
+        app: second-app # Label of the pod (key and value are our choice key can be anything)
+        # key: value a pod can have multiple labels
+        # can be connected to different object using labels
+    spec: # Specification of the pod
+      containers: # Containers of the pod
+        - name: second-node
+          image: deep04bansal/kub-first-app:2 # Image of the container
+          imagePullPolicy: Always # Pull the image always
+        # -name: .....
+        #   image: ....
+          livenessProbe: # Periodically checks the health of the pod 
+            httpGet: # it will send a http request to the pod
+              path: / 
+              port: 8080  # port of the pod
+            initialDelaySeconds: 10 # it will wait for 10 seconds before sending the first request
+            periodSeconds: 10 # it will send the request after every 10 seconds

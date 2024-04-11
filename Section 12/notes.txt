@@ -17,7 +17,7 @@ Deployment Object steps
 1. Create the docker image
 2. Send it to kubernetes cluster as part of pod
 3. Run minikube start --driver=docker
-4. Run kubectl create deployment (deployment_object_name) --image=(image_name) 
+4. Run kubectl create deployment (deployment_object_name) --image=(image_name),(image_name_2) etc.
    to create a deployment object and it gets automatically sentto kubernetes cluster. 
    But it won't work as image is in localhost. It will create the deployment object 
    but it won't be ready. Use kubectl get deployments to see all deployment object
@@ -37,8 +37,9 @@ Using Services for internal and external access of pods
    LoadBalancer -> also balances the incoming traffic along with expose
 2. kubectl get services shows all the services and we can see for first-app external IP
    is pending because it is not deployed on cloud and remain same
-3. To see it externally run minikube service (deployment_object_name)  this will expose that
-   VM to external IP
+3. To see it externally run 
+   minikube service (deployment_object_name)  
+   this will expose that VM to external IP
    Note- if cloud provider would have been there, we won't need this command
 
 ---------------------
@@ -68,3 +69,33 @@ To roll back deployment
    kubectl rollout history deployment/first-app --revision=_number_
 4. To rollback to specific revision use
    kubectl rollout undo deployment/first-app --to-revision=revision_number
+
+Declarative Way of creating
+
+------------------
+deployment object
+------------------
+1. First create the .yaml file according to configuration written
+2. kubectl apply -f=deployment.yaml (path to file name) (multiple -f flags possible)
+3. kubectl delete -f=deployment.yaml -f=service.yaml
+   (Imperitive way can also be used)
+4. we can make many resource definition in same file good practice to put service before deployment
+
+-------------------------------------------------
+Delete object by Imperitive approach using labels
+-------------------------------------------------
+apiVersion: apps/v1 # Version of the Kubernetes API check from the official documentation
+kind: Deployment # Type of the Kubernetes object 
+metadata: # Metadata of the object
+  name: second-app # Name of the object
+  labels:
+    group: deploy
+(Writing labels like this for deployment object)
+
+1. kubectl delete service,deployment -l key=value (in label field)
+
+------------------------------------
+To specify how pods to be monitored
+------------------------------------
+livenessProbe this key can be used
+it defines how kubernetes should verfiy weather container is running or not
