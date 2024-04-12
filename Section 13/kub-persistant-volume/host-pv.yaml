@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  capacity: # how much capacity can be used by pods in this cluster
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes: # how you wanna claim this volume for given pod
+    - ReadWriteOnce # can be mounted as a read write volume by a single node 
+                    # so for multiple pods they need to be on same node
+    # - ReadOnlyMany  # read only can be claimed by multiple nodes
+    # - ReadWriteMany # read write can be claimed by multiple nodes
+
+  hostPath:   # for single node testing only as we don't have multiple nodes just this part will 
+              # change other all settings will remain same when working with different type
+    path: /data 
+    type: DirectoryOrCreate
+

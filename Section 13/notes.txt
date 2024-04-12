@@ -19,3 +19,25 @@ They are of different types
               instead of writing provider specific code we can write csi format and use with 
               cloud provider
                
+ ------------------
+ Persistant volume
+ ------------------
+ accessModes - how you wanna claim this volume for given pod
+    - ReadWriteOnce - can be mounted as a read write volume by a single node 
+                     so for multiple pods they need to be on same node
+    - ReadOnlyMany  - read only can be claimed by multiple nodes
+    - ReadWriteMany - read write can be claimed by multiple nodes
+we can specify all three modes also 
+
+ ------------------------
+ Persistant volume claim
+ ------------------------
+ we are learning only static claiming, dynamic claiming is also there
+ this claim is applied to pods using volume key in deployment file
+
+ ----------------
+ storage classes
+ ----------------
+ kubectl get sc
+ gives control how storage is managed and volumes can be configured 
+ we need to specify the storage class in host-pv and host-pvc so that they can communicate easily
