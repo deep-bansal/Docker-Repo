@@ -1,0 +1,21 @@
+--------
+Volumes
+--------
+They persist only container shut down and removal
+They are of different types
+1. emptyDir - no specific settings using it as it is with default settings 
+              always creates a new empty directory
+              downside - * if we have different replicas then it sends req to other pod
+                         our data is not found as volume is bound to pod
+                         * it creates an emptyDir per pod instead of sharing single one 
+                         across multiple pods
+2. hostPath - multiple pods can share same volume on host machine
+              like a bind mount
+              path needs to be specified which will be bound to folder inside pod
+              type specifies to create dir if not exist
+              downside - * worker node specific what if we have multiple worker nodes?
+3. csi -      container storage interface
+              flexible type
+              instead of writing provider specific code we can write csi format and use with 
+              cloud provider
+               

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: story-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: story
+  template:
+    metadata:
+      labels:
+        app: story 
+    spec: 
+      containers:
+        - name: story
+          image: deep04bansal/kub-volume:1
+          volumeMounts:
+            - mountPath: /app/story
+              name: story-volume  # name of volume name to be used for this path
+      volumes:
+        - name: story-volume
+          # emptyDir: {}   # no specific settings using it as it is with default settings 
+          hostPath:
+            path: /data
+            type: DirectoryOrCreate  # create if not exist
