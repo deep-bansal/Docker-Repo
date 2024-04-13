@@ -32,7 +32,9 @@ Using Services for internal and external access of pods
 1. we can work by running kubectl create service command but longer way instead use 
    kubectl expose deployment (deployment_object_name) --port=(port_no.) --type=
    CluserIP -> accessible only inside the cluster (default expose)
+               provide internal node balancing so cloud loadbalancer not required
    NodePort -> accessible outside also with help of worker node IP on which it runs
+               downside - worker node dependent
    LoadBalancer -> also balances the incoming traffic along with expose
 2. kubectl get services shows all the services and we can see for first-app, external IP
    is pending because it is not deployed on cloud and remain same
