@@ -32,3 +32,12 @@ Multi Deployment
    (b) Kubernetes automatically generate environment variables and through this env variables
        kubernetes give us info like IP address etc. We can access these environment variables 
        using process.env.(SERVICE_NAME)_SERVICE_HOST. SERVICE_HOST gives IP
+   (c) We can also use intenal domain names that can be assigned to env values
+       To get all namespaces assigned run kubectl get namespaces.
+       Generally service domain name is service-name.default
+       CoreDNS provide this service inbuilt
+
+--------------------
+Frontend Deployment
+--------------------
+Same steps as we did for other pods and we can use the same IP address used in postman 
