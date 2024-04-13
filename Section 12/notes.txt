@@ -10,7 +10,6 @@ minikube dashboard
 
 
 Imperitive Way of creating
-
 -----------------------------------------------------
 Deployment Object steps 
 -----------------------------------------------------
@@ -18,7 +17,7 @@ Deployment Object steps
 2. Send it to kubernetes cluster as part of pod
 3. Run minikube start --driver=docker
 4. Run kubectl create deployment (deployment_object_name) --image=(image_name),(image_name_2) etc.
-   to create a deployment object and it gets automatically sentto kubernetes cluster. 
+   to create a deployment object and it gets automatically send to kubernetes cluster. 
    But it won't work as image is in localhost. It will create the deployment object 
    but it won't be ready. Use kubectl get deployments to see all deployment object
 5. kubectl get pods don't show any pods ready out of 1 pod and reason shown is errImagePull
@@ -35,10 +34,10 @@ Using Services for internal and external access of pods
    CluserIP -> accessible only inside the cluster (default expose)
    NodePort -> accessible outside also with help of worker node IP on which it runs
    LoadBalancer -> also balances the incoming traffic along with expose
-2. kubectl get services shows all the services and we can see for first-app external IP
+2. kubectl get services shows all the services and we can see for first-app, external IP
    is pending because it is not deployed on cloud and remain same
 3. To see it externally run 
-   minikube service (deployment_object_name)  
+   minikube service (service_object_name)  
    this will expose that VM to external IP
    Note- if cloud provider would have been there, we won't need this command
 
@@ -53,9 +52,9 @@ Updating deployment code
 1. Build the image again after changes.
 2. Push the image to dockerHub.
 3. Now run following command
-   kubectl set image deployment/first-app old-image-name=deep04bansal/kub-first-app(new_image_name)
+   kubectl set image deployment/first-app (old-image-name)=deep04bansal/kub-first-app(new_image_name)
    this command won't make any changes because it only downloads the image if they have different tag
-5. kubectl set image deployment/first-app old-image-name=deep04bansal/kub-first-app(new_image_name)
+5. kubectl set image deployment/first-app old-image-name=deep04bansal/kub-first-app:2(new_image_name_with_tag)
 6. To see status of new rollout run 
    kubectl rollout status deployment/first-app
 
@@ -70,8 +69,8 @@ To roll back deployment
 4. To rollback to specific revision use
    kubectl rollout undo deployment/first-app --to-revision=revision_number
 
-Declarative Way of creating
 
+Declarative Way of creating
 ------------------
 deployment object
 ------------------

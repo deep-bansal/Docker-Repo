@@ -10,6 +10,7 @@ spec: # Specification of the object
     matchLabels: # Match labels of the pod
       app: second-app # Label of the pod to be controlled
     # matchExpressions: # Match expressions of the pod
+       #  - {key: app, values: [second-app, first-app]}
 
   template: # like we specified image in imperative approach 
     
