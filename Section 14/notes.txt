@@ -1,0 +1,34 @@
+----------
+Users Pod
+----------
+1. Build the image of users-api by by marking some dummy data in axios fetching 
+2. Now push the image to docker hub
+3. Create yaml file users-deployment for it. 
+4. Create yaml file users-service for it. 
+5. Check using postman if working fine or not
+
+---------------------
+Adding Auth container
+---------------------
+1. Now for adding auth pod revert back the changes done in 1 step of Users Pod
+   and instead of "auth" (which is container name for docker-compose) use the
+   env variables.
+2. Now set environment variable in users container to localhost as for internal pod 
+   communication localhost can be used.
+3. Add the auth container in same users-deployment.yaml file for same pod
+
+Note -> Now we have tasks Pod that wants to communicate with auth container but since 
+        we set up the pod internal communication for auth it won't be possible.
+        So we need to create a separate pod for auth also and create cluster internal
+        communication
+
+----------------
+Multi Deployment
+----------------
+1. Make separate deployment and services file for auth and user.
+2. In auth service we need to mention ClusterIP
+3. Now what IP of auth to use in user ? 
+   (a) We can apply auth-service and paste it in user env variable which is annoying
+   (b) Kubernetes automatically generate environment variables and through this env variables
+       kubernetes give us info like IP address etc. We can access these environment variables 
+       using process.env.(SERVICE_NAME)_SERVICE_HOST. SERVICE_HOST gives IP
