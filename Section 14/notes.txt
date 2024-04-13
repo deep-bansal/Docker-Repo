@@ -41,3 +41,7 @@ Multi Deployment
 Frontend Deployment
 --------------------
 Same steps as we did for other pods and we can use the same IP address used in postman 
+add reverse proxy in nginx 
+
+ proxy_pass http://tasks-service.default:8000/; not clear much but inside the cluster 
+ with internal port of cluster and not outside port 80   
